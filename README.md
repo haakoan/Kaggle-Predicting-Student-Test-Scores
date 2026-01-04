@@ -1,8 +1,7 @@
-# Kaggle Exam Score Prediction Competition Report
+# Kaggle Exam Score Prediction
 
-## Executive Summary
-
-This report documents my approach to the Kaggle Playground Series S6E1 competition, which involved predicting student exam scores based on study habits, demographics, and environmental factors. The final solution achieved a public leaderboard score of **8.678 RMSE**, using a two-stage stacking approach: Ridge regression followed by XGBoost.
+This report documents my approach to the Kaggle Playground Series S6E1 competition, which involved predicting student exam scores based on study habits, demographics, and environmental factors. 
+The final solution achieved a public leaderboard score of **8.678 RMSE**, using a two-stage stacking approach: Ridge regression followed by XGBoost.
 
 ## 1. Data Overview
 
@@ -129,7 +128,8 @@ ElasticNet 10.913511 0.057023 0.867s
 
 ### Model Selection Rationale
 
-Despite Ridge being worse standalone, I adopted a **stacking approach** inspired by competitive solutions:
+Despite Ridge being worse standalone, I adopted a **stacking approach** inspired by competitive solution
+Kaggle notebook: ["s6e1-learned-lr-formula-xgb" by haha750](https://www.kaggle.com/code/haha750/s6e1-learned-lr-formula-xgb/notebook).
 
 1. **Ridge with target encoding** captures global linear structure
 2. **Ridge predictions as feature** gives XGBoost a strong baseline to refine
@@ -259,42 +259,7 @@ Tried several features to flag edge cases:
 
 None improved CV performance, suggesting these outliers may be inherently unpredictable from available features.
 
-## 8. Lessons Learned
-
-1. **Stacking works:** Ridge → XGBoost improved over XGBoost alone
-2. **Feature engineering has limits:** For tabular data with clear linear relationships, engineered features provide diminishing returns
-3. **Full training helps:** Training on all data with well-chosen n_estimators beat CV averaging
-4. **Know when to stop:** After trying many approaches, the remaining gap to top solutions (~0.14 RMSE) likely requires either:
-   - Different data (external sources)
-   - Luck with random seeds
-   - Techniques not worth the complexity
-
-## 9. Code Structure
-
-```
-├── Data Loading
-│   └── load_data() - loads train.csv, train_original.csv, test.csv
-├── EDA
-│   ├── Numerical feature scatter plots
-│   ├── Categorical feature box plots
-│   └── Binned/transformation analysis
-├── Feature Engineering
-│   ├── add_features() - creates derived features
-│   └── preprocess() - handles categoricals, aligns columns
-├── Training
-│   ├── Stage 1: Ridge with target encoding
-│   └── Stage 2: XGBoost with early stopping
-└── Submission
-    └── Full training without CV for final submission
-```
-
-## 10. References
-
-- Kaggle notebook: ["s6e1-learned-lr-formula-xgb" by haha750](https://www.kaggle.com/code/haha750/s6e1-learned-lr-formula-xgb/notebook)
-- XGBoost documentation
-- Scikit-learn TargetEncoder documentation
-
 ---
 
 *Competition: Kaggle Playground Series S6E1*  
-*Final Score: 8.678 RMSE (Public LB)*
+*Final Score: 8.678 RMSE (Public 8.66 from previous try)*
